@@ -54,5 +54,5 @@
     "@oznu/hap-client": {
       "axios": "1.6.7"
     }
-  }  
+  }
 }
