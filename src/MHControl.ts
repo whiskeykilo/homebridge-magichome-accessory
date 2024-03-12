@@ -316,14 +316,14 @@ export class MHControl {
         };
 
         return state;
-      })
-      .catch((err) => {
-        callback(err);
-        return err;
       });
 
     if (callback && typeof callback === 'function') {
-      promise.then(callback.bind(null, null), callback());
+      promise.then(result => {
+        callback(null, result); // Handle success
+      }).catch(err => {
+        callback(err); // Handle error
+      });
     }
 
     return promise;
