@@ -304,26 +304,27 @@ export class MHControl {
 
     const promise = new Promise<any>((resolve, reject) => {
       this._sendCommand(cmd_buf, true, resolve, reject);
-    })
-      .then((data) => {
-        if (data.length !== 14) {
-          throw new Error('Invalid response');
-        }
+    }).then((data) => {
+      if (data.length !== 14) {
+        throw new Error('Invalid response');
+      }
 
-        const state: MHQueryResponse = {
-          on: data.readUInt8(2) === 0x23,
-          brightness: data.readUInt8(6),
-        };
+      const state: MHQueryResponse = {
+        on: data.readUInt8(2) === 0x23,
+        brightness: data.readUInt8(6),
+      };
 
-        return state;
-      });
+      return state;
+    });
 
     if (callback && typeof callback === 'function') {
-      promise.then(result => {
-        callback(null, result); // Handle success
-      }).catch(err => {
-        callback(err); // Handle error
-      });
+      promise
+        .then((result) => {
+          callback(null, result); // Handle success
+        })
+        .catch((err) => {
+          callback(err); // Handle error
+        });
     }
 
     return promise;
