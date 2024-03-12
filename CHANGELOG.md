@@ -14,6 +14,8 @@
 
 ## 1.0.2
 
+sudo npm install -g --unsafe-perm homebridge homebridge-config-ui-x
+
 * removed unneeded dependencies
 
 ## 1.0.1
