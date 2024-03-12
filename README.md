@@ -1,7 +1,5 @@
 # Homebridge-MagicHome-Accessory
 
-> ⚠️ Since I moved from `homebridge` to `Home Assistant` I will no longer work on this plugin.
-
 This plugin allows MagicHome single channel devices to be switched on/off and to be dimmed in HomeKit.
 
 ## Config
