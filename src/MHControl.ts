@@ -46,6 +46,7 @@ export class MHControl {
   private _connectTimeout?: NodeJS.Timeout;
   private _commandTimeout?: NodeJS.Timeout;
   private _preventDataSending = false;
+  log: any;
 
   constructor(options: MHControlOptions) {
     this._address = options.host;
@@ -305,6 +306,11 @@ export class MHControl {
     const promise = new Promise<any>((resolve, reject) => {
       this._sendCommand(cmd_buf, true, resolve, reject);
     }).then((data) => {
+      // Use the logger for debugging
+      this.log.debug('Raw data received:', data);
+      this.log.debug('Raw data length:', data.length);
+      this.log.debug('Raw data hex representation:', data.toString('hex'));
+
       if (data.length !== 14) {
         throw new Error('Invalid response');
       }
@@ -323,6 +329,7 @@ export class MHControl {
           callback(null, result); // Handle success
         })
         .catch((err) => {
+          this.log.error('Error querying state:', err); // Use the logger for errors
           callback(err); // Handle error
         });
     }
