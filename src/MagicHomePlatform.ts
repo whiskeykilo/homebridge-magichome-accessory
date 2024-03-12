@@ -36,7 +36,11 @@ export class MagicHomePlatform implements DynamicPlatformPlugin {
 
   public readonly accessories: PlatformAccessory[] = [];
 
-  constructor(public readonly log: Logger, public readonly config: PlatformConfig, public readonly api: API) {
+  constructor(
+    public readonly log: Logger,
+    public readonly config: PlatformConfig,
+    public readonly api: API,
+  ) {
     this.log = log;
     this.config = config;
     this.api = api;
