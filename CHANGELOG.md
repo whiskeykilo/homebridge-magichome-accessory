@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1
+
+* Resolved error handling issues in the HomeBridge log
+
+## 2.0.0
+
+* Initial release post-fork
+
 ## 1.0.3
 
 * fixed `callback is not a function` error
