@@ -1,6 +1,6 @@
 /**
  * ./src/extensions.ts
- * @author Lukas Pistrol <lukas@pistrol.com>
+ * @author Will Kapcio
  */
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,6 +1,6 @@
 /**
  * ./src/MagicHomePlatform.ts
- * @author Lukas Pistrol <lukas@pistrol.com>
+ * @author Will Kapcio
  */
 
 import {

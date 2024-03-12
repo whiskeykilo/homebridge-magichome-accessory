@@ -1,6 +1,6 @@
 /**
  * ./src/settings.ts
- * @author Lukas Pistrol <lukas@pistrol.com>
+ * @author Will Kapcio
  */
 
 export const ACCESSORY_NAME = 'MagicHomeAccessory';

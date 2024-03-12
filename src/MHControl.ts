@@ -1,6 +1,6 @@
 /**
  * ./src/MHControl.ts
- * @author Lukas Pistrol <lukas@pistrol.com>
+ * @author Will Kapcio
  */
 
 import net = require('net');
