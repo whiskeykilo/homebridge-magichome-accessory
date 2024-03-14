@@ -109,7 +109,6 @@ export class MHPlatformAccessory {
       });
   }
 
-
   /**
    * **Set Power State**
    *
@@ -132,7 +131,6 @@ export class MHPlatformAccessory {
       });
   }
 
-
   /**
    * **Get Brightness**
    *
@@ -153,7 +151,6 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
-
 
   /**
    * **Set Brightness**
@@ -176,5 +173,4 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
-
 }
