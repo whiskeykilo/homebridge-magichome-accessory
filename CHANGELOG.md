@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4
+
+* tweaks and optimizations
+
 ## 2.0.3
 
 * resolved device timeouts. Worked around response length issue
