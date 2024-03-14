@@ -16,9 +16,7 @@ import {
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { MHPlatformAccessory } from './MHPlatformAccessory';
 
-/**
- * This is a type for the device configuration.
- */
+/* This is a type for the device configuration. */
 export type Device = {
   name: string;
   ip: string;
@@ -31,10 +29,9 @@ function isEqual(a: Device, b: Device): boolean {
 }
 
 export class MagicHomePlatform implements DynamicPlatformPlugin {
-  public readonly Service: typeof Service = this.api.hap.Service;
-  public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
-
-  public readonly accessories: PlatformAccessory[] = [];
+  public readonly Service: typeof Service;
+  public readonly Characteristic: typeof Characteristic;
+  public readonly accessories: PlatformAccessory[];
 
   constructor(
     public readonly log: Logger,
@@ -44,6 +41,10 @@ export class MagicHomePlatform implements DynamicPlatformPlugin {
     this.log = log;
     this.config = config;
     this.api = api;
+
+    this.Service = this.api.hap.Service;
+    this.Characteristic = this.api.hap.Characteristic;
+    this.accessories = [];
 
     this.log.debug('Finished initializing platform:', this.config.name);
 
