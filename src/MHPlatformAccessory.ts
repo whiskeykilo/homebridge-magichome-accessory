@@ -9,6 +9,7 @@ import {
   CharacteristicValue,
   CharacteristicGetCallback,
   CharacteristicSetCallback,
+  Logger,
 } from 'homebridge';
 
 import { MagicHomePlatform } from './MagicHomePlatform';
@@ -19,15 +20,16 @@ import { version as VERSION } from '../package.json';
 import { MHControl } from './MHControl';
 import { Device } from './MagicHomePlatform';
 import './extensions';
+import { convertToColor, convertToPercent, onOff } from './extensions';
 
 /**
  * This is the accessory class that is used to create the accessory in homebridge.
  */
 export class MHPlatformAccessory {
   private service: Service;
-
   private MHOnControl: MHControl;
   private MHBrightnessControl: MHControl;
+  private log: Logger;
 
   /**
    * @param platform The platform that this accessory belongs to.
@@ -35,6 +37,7 @@ export class MHPlatformAccessory {
    * @param device The device configuration for this accessory.
    */
   constructor(
+    log: Logger,
     private readonly platform: MagicHomePlatform,
     private readonly accessory: PlatformAccessory,
     private readonly device: Device,
@@ -49,8 +52,9 @@ export class MHPlatformAccessory {
     };
 
     // set controllers for power and brightness
-    this.MHOnControl = new MHControl(configuration);
-    this.MHBrightnessControl = new MHControl(configuration);
+    this.log = log;
+    this.MHOnControl = new MHControl(this.log, configuration);
+    this.MHBrightnessControl = new MHControl(this.log, configuration);
 
     // set accessory information
     this.accessory
@@ -94,7 +98,8 @@ export class MHPlatformAccessory {
   getPowerState(callback: CharacteristicGetCallback) {
     this.MHOnControl.queryState()
       .then((state) => {
-        const isOn = state.on.onOff();
+        // Use the onOff utility function with the state.on boolean value
+        const isOn = onOff(state.on);
         this.platform.log.debug(`[${this.device.name}] Power: "${isOn}"`);
         callback(null, state.on);
       })
@@ -103,6 +108,7 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
+
 
   /**
    * **Set Power State**
@@ -115,7 +121,9 @@ export class MHPlatformAccessory {
   setPowerState(value: CharacteristicValue, callback: CharacteristicSetCallback) {
     this.MHOnControl.setPower(value as boolean)
       .then(() => {
-        this.platform.log.info(`[${this.device.name}] Power Set: "${(value as boolean).onOff()}"`);
+        // Use the onOff utility function instead of the method on the boolean
+        const powerState = onOff(value as boolean);
+        this.platform.log.info(`[${this.device.name}] Power Set: "${powerState}"`);
         callback(null);
       })
       .catch((error) => {
@@ -123,6 +131,7 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
+
 
   /**
    * **Get Brightness**
@@ -134,7 +143,8 @@ export class MHPlatformAccessory {
   getBrightness(callback: CharacteristicGetCallback) {
     this.MHBrightnessControl.queryState()
       .then((state) => {
-        const brightness = state.brightness.convertToPercent(255);
+        // Use the convertToPercent utility function with the state.brightness value
+        const brightness = convertToPercent(state.brightness, 255);
         this.platform.log.debug(`[${this.device.name}] Brightness: "${brightness}%"`);
         callback(null, brightness);
       })
@@ -143,6 +153,7 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
+
 
   /**
    * **Set Brightness**
@@ -153,7 +164,9 @@ export class MHPlatformAccessory {
    * @param  {CharacteristicSetCallback} callback
    */
   setBrightness(value: CharacteristicValue, callback: CharacteristicSetCallback) {
-    this.MHBrightnessControl.sendBrightnessCommand((value as number).convertToColor(255))
+    // Use the convertToColor utility function with the value
+    const brightnessValue = convertToColor(value as number, 255);
+    this.MHBrightnessControl.sendBrightnessCommand(brightnessValue)
       .then(() => {
         this.platform.log.info(`[${this.device.name}] Brightness Set: "${value}%"`);
         callback(null);
@@ -163,4 +176,5 @@ export class MHPlatformAccessory {
         callback(error);
       });
   }
+
 }

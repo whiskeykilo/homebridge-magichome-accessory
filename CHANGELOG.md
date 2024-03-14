@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+* resolved device timeouts. Worked around response length issue
+
 ## 2.0.1
 
 * Resolved error handling issues in the HomeBridge log

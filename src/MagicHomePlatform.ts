@@ -85,7 +85,7 @@ export class MagicHomePlatform implements DynamicPlatformPlugin {
           this._addDevice(device, uuid);
         } else {
           this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
-          new MHPlatformAccessory(this, existingAccessory, device);
+          new MHPlatformAccessory(this.log, this, existingAccessory, device);
         }
       } else {
         this._addDevice(device, uuid);
@@ -100,7 +100,7 @@ export class MagicHomePlatform implements DynamicPlatformPlugin {
     const accessory = new this.api.platformAccessory(device.name, uuid);
     accessory.context.device = device;
 
-    new MHPlatformAccessory(this, accessory, device);
+    new MHPlatformAccessory(this.log, this, accessory, device);
 
     this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
   }

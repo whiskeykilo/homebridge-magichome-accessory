@@ -4,6 +4,7 @@
  */
 
 import net = require('net');
+import { Logger } from 'homebridge';
 
 /** A structure containing options for the {@link MHControl} */
 type MHControlOptions = {
@@ -46,9 +47,14 @@ export class MHControl {
   private _connectTimeout?: NodeJS.Timeout;
   private _commandTimeout?: NodeJS.Timeout;
   private _preventDataSending = false;
-  log: any;
 
-  constructor(options: MHControlOptions) {
+  private incomingBuffer = Buffer.alloc(0); // Initialize an empty buffer
+
+  constructor(
+    private readonly log: Logger,
+    options: MHControlOptions,
+  ) {
+    this.log = log;
     this._address = options.host;
     this._port = options.port;
     this._connect_timeout = options.connect_timeout || 1000;
@@ -306,10 +312,11 @@ export class MHControl {
     const promise = new Promise<any>((resolve, reject) => {
       this._sendCommand(cmd_buf, true, resolve, reject);
     }).then((data) => {
+      this.log.debug(`Received response: Length=${data.length}, Content=${data.toString('hex')}`);
 
-      if (data.length !== 14) {
+      /*       if (data.length !== 14) {
         throw new Error('Invalid response');
-      }
+      } */
 
       const state: MHQueryResponse = {
         on: data.readUInt8(2) === 0x23,
